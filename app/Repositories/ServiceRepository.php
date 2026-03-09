@@ -12,8 +12,14 @@ class ServiceRepository extends BaseRepository implements ServiceRepositoryInter
         parent::__construct($model);
     }
 
-    public function getBranchServices($branchId)
+    public function getBranchServices($branchId, bool $activeOnly = true)
     {
-        return $this->model->where('branch_id', $branchId)->get();
+        $query = $this->model->where('branch_id', $branchId);
+
+        if ($activeOnly) {
+            $query->active();
+        }
+
+        return $query->orderBy('name')->get();
     }
 }

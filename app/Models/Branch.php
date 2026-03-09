@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branch extends Model
 {
-    protected $fillable = ['name', 'address', 'phone'];
+    protected $fillable = ['name', 'address', 'phone', 'is_active'];
+
+    protected $casts = ['is_active' => 'boolean'];
 
     public function users()
     {
@@ -26,5 +28,15 @@ class Branch extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany(InventoryItem::class);
     }
 }

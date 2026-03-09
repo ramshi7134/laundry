@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class InventoryTransaction extends Model
 {
     protected $fillable = [
-        'item_id', 'quantity', 'type', 'reference', 'notes', 'cost', 'created_by',
+        'item_id', 'type', 'quantity', 'quantity_before', 'quantity_after',
+        'reference', 'reason', 'notes', 'cost', 'created_by',
     ];
 
     protected $casts = [
-        'quantity' => 'decimal:3',
-        'cost'     => 'decimal:2',
+        'quantity'        => 'decimal:3',
+        'quantity_before' => 'decimal:3',
+        'quantity_after'  => 'decimal:3',
+        'cost'            => 'decimal:2',
     ];
 
     public function item(): BelongsTo

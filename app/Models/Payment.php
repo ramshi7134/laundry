@@ -10,6 +10,12 @@ class Payment extends Model
         'order_id',
         'amount',
         'method',
+        'reference',
+        'note',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
     ];
 
     public function order()
