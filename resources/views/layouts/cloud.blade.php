@@ -5,10 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Laundry Cloud Dashboard')</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet">
+    </noscript>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
         *,
         body {
             font-family: 'Inter', sans-serif;
@@ -767,7 +777,7 @@
 </head>
 
 <body>
-    <div x-data="cloud()" class="d-flex">
+    <div x-data="cloud" class="d-flex" x-cloak>
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
@@ -925,52 +935,68 @@
                 </div>
 
                 <!-- ════ ORDERS ════ -->
-                <div x-show="page==='orders'">
-                    @include('cloud.orders')
-                </div>
+                <template x-if="page==='orders'">
+                    <div>
+                        @include('cloud.orders')
+                    </div>
+                </template>
 
                 <!-- ════ CUSTOMERS ════ -->
-                <div x-show="page==='customers'">
-                    @include('cloud.customers')
-                </div>
+                <template x-if="page==='customers'">
+                    <div>
+                        @include('cloud.customers')
+                    </div>
+                </template>
 
                 <!-- ════ DELIVERY ════ -->
-                <div x-show="page==='delivery'">
-                    @include('cloud.delivery')
-                </div>
+                <template x-if="page==='delivery'">
+                    <div>
+                        @include('cloud.delivery')
+                    </div>
+                </template>
 
                 <!-- ════ INVENTORY ════ -->
-                <div x-show="page==='inventory'">
-                    @include('cloud.inventory')
-                </div>
+                <template x-if="page==='inventory'">
+                    <div>
+                        @include('cloud.inventory')
+                    </div>
+                </template>
 
                 <!-- ════ EXPENSES ════ -->
-                <div x-show="page==='expenses'">
-                    @include('cloud.expenses')
-                </div>
+                <template x-if="page==='expenses'">
+                    <div>
+                        @include('cloud.expenses')
+                    </div>
+                </template>
 
                 <!-- ════ REPORTS ════ -->
-                <div x-show="page==='reports'">
-                    @include('cloud.reports')
-                </div>
+                <template x-if="page==='reports'">
+                    <div>
+                        @include('cloud.reports')
+                    </div>
+                </template>
 
                 <!-- ════ SYNC ════ -->
-                <div x-show="page==='sync'">
-                    @include('cloud.sync')
-                </div>
+                <template x-if="page==='sync'">
+                    <div>
+                        @include('cloud.sync')
+                    </div>
+                </template>
 
                 <!-- ════ SETTINGS ════ -->
-                <div x-show="page==='settings'">
-                    @include('cloud.settings')
-                </div>
+                <template x-if="page==='settings'">
+                    <div>
+                        @include('cloud.settings')
+                    </div>
+                </template>
 
             </div>
         </div>
     </div>
 
     <script>
-        function cloud() {
-            return {
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('cloud', () => ({
                 page: 'dashboard',
                 syncStatus: {
                     online: true,
@@ -1134,9 +1160,12 @@
                 orderSearch: '',
                 get filteredOrders() {
                     let list = this.allOrders;
-                    if (this.orderFilter !== 'all') list = list.filter(o => o.status === this.orderFilter);
-                    if (this.orderSearch) list = list.filter(o => o.number.toLowerCase().includes(this.orderSearch
-                        .toLowerCase()) || o.customer.toLowerCase().includes(this.orderSearch.toLowerCase()));
+                    if (this.orderFilter !== 'all') list = list.filter(o => o.status === this
+                        .orderFilter);
+                    if (this.orderSearch) list = list.filter(o => o.number.toLowerCase().includes(
+                        this.orderSearch
+                        .toLowerCase()) || o.customer.toLowerCase().includes(this
+                        .orderSearch.toLowerCase()));
                     return list;
                 },
 
@@ -1191,7 +1220,8 @@
                 get filteredCustomers() {
                     if (!this.customerSearch) return this.allCustomers;
                     const s = this.customerSearch.toLowerCase();
-                    return this.allCustomers.filter(c => c.name.toLowerCase().includes(s) || c.phone.includes(s) || c
+                    return this.allCustomers.filter(c => c.name.toLowerCase().includes(s) || c.phone
+                        .includes(s) || c
                         .email.toLowerCase().includes(s));
                 },
 
@@ -1227,12 +1257,14 @@
                 deliveryFilter: 'all',
                 deliverySearch: '',
                 get filteredDeliveries() {
-                    let list = this.deliveryFilter === 'all' ? this.allDeliveries : this.allDeliveries.filter(d => d
-                        .status === this.deliveryFilter);
+                    let list = this.deliveryFilter === 'all' ? this.allDeliveries : this
+                        .allDeliveries.filter(d => d
+                            .status === this.deliveryFilter);
                     if (!this.deliverySearch) return list;
                     const q = this.deliverySearch.toLowerCase();
-                    return list.filter(d => (d.customer_name || d.customer || '').toLowerCase().includes(q) || (d
-                        .staff_name || '').toLowerCase().includes(q));
+                    return list.filter(d => (d.customer_name || d.customer || '').toLowerCase()
+                        .includes(q) || (d
+                            .staff_name || '').toLowerCase().includes(q));
                 },
 
                 // ── Inventory ──
@@ -1299,8 +1331,9 @@
                     if (this.inventoryFilter === 'low') list = list.filter(i => this.isLow(i));
                     if (!this.inventorySearch) return list;
                     const q = this.inventorySearch.toLowerCase();
-                    return list.filter(i => i.name.toLowerCase().includes(q) || (i.sku || '').toLowerCase().includes(
-                    q));
+                    return list.filter(i => i.name.toLowerCase().includes(q) || (i.sku || '')
+                        .toLowerCase().includes(
+                            q));
                 },
 
                 // ── Expenses ──
@@ -1542,7 +1575,8 @@
                     if (!this.adjustQty || !this.selectedItem) return;
                     const qty = parseFloat(this.adjustQty);
                     if (this.adjustType === 'add') this.selectedItem.quantity += qty;
-                    else if (this.adjustType === 'remove') this.selectedItem.quantity = Math.max(0, this.selectedItem
+                    else if (this.adjustType === 'remove') this.selectedItem.quantity = Math.max(0, this
+                        .selectedItem
                         .quantity - qty);
                     else this.selectedItem.quantity = qty;
                     this.showAdjustStock = false;
@@ -1556,11 +1590,13 @@
                         this.syncStatus.syncing = false;
                         this.counts.syncPending = 0;
                         this.lastSyncTime = new Date().toLocaleTimeString();
-                        this.syncQueue.filter(s => s.status === 'pending').forEach(s => s.status = 'synced');
+                        this.syncQueue.filter(s => s.status === 'pending').forEach(s => s
+                            .status = 'synced');
                     }, 2000);
                 },
                 retrySync() {
-                    this.syncQueue.filter(s => s.status === 'failed').forEach(s => s.status = 'pending');
+                    this.syncQueue.filter(s => s.status === 'failed').forEach(s => s.status =
+                    'pending');
                     this.doSync();
                 },
                 retrySingle(id) {
@@ -1611,8 +1647,8 @@
                         this.isOnline = false;
                     });
                 },
-            };
-        }
+            }));
+        });
     </script>
 
     @yield('scripts')
