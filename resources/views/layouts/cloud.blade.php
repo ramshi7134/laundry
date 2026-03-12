@@ -793,7 +793,8 @@
                 </svg>
                 Dashboard
             </a>
-            <a @click.prevent="page='orders'" href="#" :class="page === 'orders' ? 'active' : ''" class="nav-item">
+            <a @click.prevent="page='orders'" href="#" :class="page === 'orders' ? 'active' : ''"
+                class="nav-item">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -811,7 +812,8 @@
             </a>
 
             <div class="sidebar-section">Operations</div>
-            <a @click.prevent="page='delivery'" href="#" :class="page === 'delivery' ? 'active' : ''" class="nav-item">
+            <a @click.prevent="page='delivery'" href="#" :class="page === 'delivery' ? 'active' : ''"
+                class="nav-item">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
@@ -828,7 +830,8 @@
                 <span x-show="counts.lowStock>0" x-text="counts.lowStock" class="nav-badge"
                     style="background:#F59E0B;"></span>
             </a>
-            <a @click.prevent="page='expenses'" href="#" :class="page === 'expenses' ? 'active' : ''" class="nav-item">
+            <a @click.prevent="page='expenses'" href="#" :class="page === 'expenses' ? 'active' : ''"
+                class="nav-item">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
@@ -837,7 +840,8 @@
             </a>
 
             <div class="sidebar-section">Analytics</div>
-            <a @click.prevent="page='reports'" href="#" :class="page === 'reports' ? 'active' : ''" class="nav-item">
+            <a @click.prevent="page='reports'" href="#" :class="page === 'reports' ? 'active' : ''"
+                class="nav-item">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -846,7 +850,8 @@
             </a>
 
             <div class="sidebar-section">System</div>
-            <a @click.prevent="page='sync'" href="#" :class="page === 'sync' ? 'active' : ''" class="nav-item">
+            <a @click.prevent="page='sync'" href="#" :class="page === 'sync' ? 'active' : ''"
+                class="nav-item">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -900,7 +905,8 @@
                         </svg>
                         Open POS
                     </a>
-                    <button @click="doSync" :class="syncStatus.syncing ? 'syncing' : ''" class="tb-btn tb-btn-primary">
+                    <button @click="doSync" :class="syncStatus.syncing ? 'syncing' : ''"
+                        class="tb-btn tb-btn-primary">
                         <svg width="13" height="13" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1123,6 +1129,8 @@
                     },
                 ],
                 orderFilter: 'all',
+                orderPayFilter: 'all',
+                orderPage: 1,
                 orderSearch: '',
                 get filteredOrders() {
                     let list = this.allOrders;
@@ -1217,9 +1225,14 @@
                     },
                 ],
                 deliveryFilter: 'all',
+                deliverySearch: '',
                 get filteredDeliveries() {
-                    if (this.deliveryFilter === 'all') return this.allDeliveries;
-                    return this.allDeliveries.filter(d => d.status === this.deliveryFilter);
+                    let list = this.deliveryFilter === 'all' ? this.allDeliveries : this.allDeliveries.filter(d => d
+                        .status === this.deliveryFilter);
+                    if (!this.deliverySearch) return list;
+                    const q = this.deliverySearch.toLowerCase();
+                    return list.filter(d => (d.customer_name || d.customer || '').toLowerCase().includes(q) || (d
+                        .staff_name || '').toLowerCase().includes(q));
                 },
 
                 // ── Inventory ──
@@ -1227,58 +1240,67 @@
                         id: 1,
                         name: 'Detergent (5L)',
                         sku: 'DET-5L',
-                        qty: 12,
+                        quantity: 12,
                         unit: 'bottles',
-                        min: 5,
-                        cost: 8.5,
-                        active: true
+                        min_quantity: 5,
+                        unit_cost: 8.5,
+                        category: 'chemicals',
+                        description: ''
                     },
                     {
                         id: 2,
                         name: 'Fabric Softener',
                         sku: 'FAB-SF',
-                        qty: 3,
+                        quantity: 3,
                         unit: 'bottles',
-                        min: 5,
-                        cost: 6.0,
-                        active: true
+                        min_quantity: 5,
+                        unit_cost: 6.0,
+                        category: 'chemicals',
+                        description: ''
                     },
                     {
                         id: 3,
                         name: 'Dry-Clean Fluid',
                         sku: 'DCF-1L',
-                        qty: 8,
+                        quantity: 8,
                         unit: 'liters',
-                        min: 3,
-                        cost: 22.0,
-                        active: true
+                        min_quantity: 3,
+                        unit_cost: 22.0,
+                        category: 'chemicals',
+                        description: ''
                     },
                     {
                         id: 4,
                         name: 'Hangers (100pk)',
                         sku: 'HNG-100',
-                        qty: 200,
+                        quantity: 200,
                         unit: 'pcs',
-                        min: 50,
-                        cost: 0.1,
-                        active: true
+                        min_quantity: 50,
+                        unit_cost: 0.1,
+                        category: 'supplies',
+                        description: ''
                     },
                     {
                         id: 5,
                         name: 'Plastic Bags',
                         sku: 'BAG-PL',
-                        qty: 400,
+                        quantity: 400,
                         unit: 'pcs',
-                        min: 100,
-                        cost: 0.05,
-                        active: false
+                        min_quantity: 100,
+                        unit_cost: 0.05,
+                        category: 'supplies',
+                        description: ''
                     },
                 ],
                 inventorySearch: '',
+                inventoryFilter: 'all',
                 get filteredInventory() {
-                    if (!this.inventorySearch) return this.allInventory;
-                    return this.allInventory.filter(i => i.name.toLowerCase().includes(this.inventorySearch
-                    .toLowerCase()) || i.sku.toLowerCase().includes(this.inventorySearch.toLowerCase()));
+                    let list = this.allInventory;
+                    if (this.inventoryFilter === 'low') list = list.filter(i => this.isLow(i));
+                    if (!this.inventorySearch) return list;
+                    const q = this.inventorySearch.toLowerCase();
+                    return list.filter(i => i.name.toLowerCase().includes(q) || (i.sku || '').toLowerCase().includes(
+                    q));
                 },
 
                 // ── Expenses ──
@@ -1334,9 +1356,12 @@
                 dailyData: {
                     date: '2026-03-11',
                     total_orders: 38,
-                    net_revenue: 4820,
+                    gross_revenue: 4820,
+                    net_revenue: 4365,
+                    collected: 4210,
                     total_collected: 4210,
                     total_due: 610,
+                    total_discounts: 455,
                     total_expenses: 455,
                     net_profit: 3755,
                     orders_by_status: {
@@ -1387,6 +1412,14 @@
                     },
                 ],
 
+                syncStatusFilter: 'all',
+                get filteredSyncQueue() {
+                    if (this.syncStatusFilter === 'all') return this.syncQueue;
+                    return this.syncQueue.filter(s => s.status === this.syncStatusFilter);
+                },
+                lastSyncTime: null,
+                isOnline: navigator.onLine,
+
                 // ── Settings ──
                 appSettings: {
                     shop_name: 'Laundry Express',
@@ -1397,6 +1430,14 @@
                     delivery_fee: '5',
                     auto_sync: true,
                     sms_notifications: false,
+                    wallet_enabled: true,
+                    loyalty_enabled: true,
+                    sync_interval: '5',
+                    address: '',
+                    shop_phone: '',
+                    receipt_footer: 'Thank you for your business!',
+                    per_page: '20',
+                    date_format: 'YYYY-MM-DD',
                 },
 
                 // ── Modals ──
@@ -1411,11 +1452,9 @@
                 },
                 showAdjustStock: false,
                 selectedItem: null,
-                stockAdj: {
-                    type: 'add',
-                    qty: '',
-                    reason: ''
-                },
+                adjustType: 'add',
+                adjustQty: '',
+                adjustReason: '',
 
                 // ── Methods ──
                 pageTitle() {
@@ -1464,7 +1503,7 @@
                     return 'badge ' + (m[s] || 'badge-delivered');
                 },
                 isLow(item) {
-                    return item.qty <= item.min;
+                    return item.quantity <= item.min_quantity;
                 },
                 setOrderStatus(id, status) {
                     const o = this.allOrders.find(x => x.id === id);
@@ -1494,20 +1533,18 @@
                 },
                 openAdjust(item) {
                     this.selectedItem = item;
-                    this.stockAdj = {
-                        type: 'add',
-                        qty: '',
-                        reason: ''
-                    };
+                    this.adjustType = 'add';
+                    this.adjustQty = '';
+                    this.adjustReason = '';
                     this.showAdjustStock = true;
                 },
                 confirmAdjust() {
-                    if (!this.stockAdj.qty || !this.selectedItem) return;
-                    const qty = parseFloat(this.stockAdj.qty);
-                    if (this.stockAdj.type === 'add') this.selectedItem.qty += qty;
-                    else if (this.stockAdj.type === 'remove') this.selectedItem.qty = Math.max(0, this.selectedItem.qty -
-                        qty);
-                    else this.selectedItem.qty = qty;
+                    if (!this.adjustQty || !this.selectedItem) return;
+                    const qty = parseFloat(this.adjustQty);
+                    if (this.adjustType === 'add') this.selectedItem.quantity += qty;
+                    else if (this.adjustType === 'remove') this.selectedItem.quantity = Math.max(0, this.selectedItem
+                        .quantity - qty);
+                    else this.selectedItem.quantity = qty;
                     this.showAdjustStock = false;
                 },
                 saveSettings() {
@@ -1518,16 +1555,61 @@
                     setTimeout(() => {
                         this.syncStatus.syncing = false;
                         this.counts.syncPending = 0;
+                        this.lastSyncTime = new Date().toLocaleTimeString();
+                        this.syncQueue.filter(s => s.status === 'pending').forEach(s => s.status = 'synced');
                     }, 2000);
                 },
                 retrySync() {
                     this.syncQueue.filter(s => s.status === 'failed').forEach(s => s.status = 'pending');
                     this.doSync();
                 },
+                retrySingle(id) {
+                    const s = this.syncQueue.find(x => x.id === id);
+                    if (s) {
+                        s.status = 'pending';
+                        s.attempts = 0;
+                    }
+                    this.doSync();
+                },
+                updateDelivery(id, status) {
+                    const d = this.allDeliveries.find(x => x.id === id);
+                    if (d) {
+                        d.status = status;
+                        if (status === 'delivered') d.delivered_at = new Date().toLocaleTimeString();
+                    }
+                },
+                deleteExpense(id) {
+                    if (!confirm('Delete this expense?')) return;
+                    this.allExpenses = this.allExpenses.filter(e => e.id !== id);
+                },
+                openAddExpense() {
+                    this.newExpense = {
+                        date: new Date().toISOString().slice(0, 10),
+                        category: 'supplies',
+                        amount: '',
+                        description: ''
+                    };
+                    this.showAddExpense = true;
+                },
+                loadSettings() {
+                    // Reset to saved — in real app, fetch from API
+                    alert('Settings reset to saved values.');
+                },
+                reportDate: new Date().toISOString().slice(0, 10),
+                loadReport() {
+                    // In real app, fetch report from API with this.reportDate and this.reportPeriod
+                    console.log('Loading report for', this.reportPeriod, this.reportDate);
+                },
 
                 init() {
-                    window.addEventListener('online', () => this.syncStatus.online = true);
-                    window.addEventListener('offline', () => this.syncStatus.online = false);
+                    window.addEventListener('online', () => {
+                        this.syncStatus.online = true;
+                        this.isOnline = true;
+                    });
+                    window.addEventListener('offline', () => {
+                        this.syncStatus.online = false;
+                        this.isOnline = false;
+                    });
                 },
             };
         }
